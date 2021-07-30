@@ -141,11 +141,11 @@
             const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
             await wait(3000).then(() => clearInterval(randomize));
 
-            await displayMessage(num);
+            displayMessage(num);
             
-            async function randomNumberGenerator() {
+            function randomNumberGenerator() {
                 num = Math.floor((Math.random() * 100000) + 1);
-                await updateUser(num);
+                updateUser(num);
                 return num;
             }
 
