@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Two</title>
+
+    <style>
+        body {
+            margin: 0;
+        }
+        .content {
+            text-align: center;
+        }
+        .btn-play {
+            height: 100px;
+            width: 200px;
+            font-size: 16pt;
+            border: solid black 2px;
+            border-radius: 0;
+        }
+        .btn-play:hover, .btn-play:active{
+            border: solid cornflowerblue 2px;
+            background-color: lightblue;
+            cursor: pointer;
+        }
+        .playing {
+            border: solid cornflowerblue 2px;
+            background-color: lightblue;
+        }
+        .app-text {
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(255,255,255,0.75);
+        }
+        .modal-content {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: whitesmoke;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid cornflowerblue;
+            width: 500px;
+        }
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-title {
+            font-size: large;
+            font-weight: 500;
+        }
+        .modal-text {
+            font-size: medium;
+            font-weight: 100;
+        }
+        .modal-btn {
+            float: right;
+            width: 50%;
+            background-color: lightgray;
+            border: solid transparent 3px;
+            border-radius: 0;
+            padding: .5rem;
+        }
+        .modal-btn:hover {
+            border: solid gray 3px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="app-text">
+            <h1>The JavaScript Lottery</h1>
+            <h2>Click the button to draw a number.</h2>
+            <button id="playBtn" class="btn-play">Let's Play!</button>
+            <h3>Your Number: <span id="lottoNum">0</span></h3>
+        </div>
+        <h4>* Any number in the 1 to 1000 range wins!</h4>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="modalClose" class="close">&times;</span>
+            <p class="modal-title">This site says...</p>
+            <p id="siteMsg" class="modal-text"></p>
+            <div><button id="modalBtn" class="modal-btn">OK</button></div>
+        </div>
+    </div>
+
+    <script>
+        
+        /**
+         * Grab elements and assign functions
+         */ 
+        var modal = document.getElementById("modal");
+        var playBtn = document.getElementById("playBtn");
+        playBtn.onclick = function() { playLottery() };
+        var modalClose = document.getElementById("modalClose");
+        modalClose.onclick = function() { closeModal(modal) };
+        var modalBtn = document.getElementById("modalBtn");
+        modalBtn.onclick = function() { closeModal(modal) };
+
+        // Click outside of modal (in the shaded section) to close
+        window.onclick = function(event) { 
+            if (event.target == modal) {
+                closeModal(modal);
+            }
+         }
+
+        
+        /** 
+         * Lottery functions
+         */
+        async function playLottery() {
+            var num = 0;
+            var msg;
+
+            playBtn.classList.toggle("playing");
+            playBtn.onclick = function() { return false };
+            
+            const randomize = setInterval(() => {randomNumberGenerator(); console.log(num);}, 100);
+
+            const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+            await wait(3000).then(() => clearInterval(randomize));
+
+            await displayMessage(num);
+            
+            async function randomNumberGenerator() {
+                num = Math.floor((Math.random() * 100000) + 1);
+                await updateUser(num);
+                return num;
+            }
+
+            function updateUser(num) {
+                var displayNum = document.getElementById("lottoNum");
+                displayNum.innerHTML = num;
+            }
+
+            function displayMessage(num) {
+                if (num <= 1000) {
+                    msg = "Winner!";
+                } else {
+                    msg = "Too bad! You've lost!";
+                }
+
+                openModal(modal);
+                var message = document.getElementById("siteMsg");
+                message.innerHTML = msg;
+            }
+        }
+
+        /**
+         * Modal functions
+         */
+        function openModal(m) {
+            m.style.display = "flex";
+        }
+        function closeModal(m) {
+            m.style.display = "none";
+            playBtn.classList.toggle("playing");
+            playBtn.onclick = function() { playLottery() };
+        }
+    </script>
+</body>
+</html>

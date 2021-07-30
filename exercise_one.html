@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise One</title>
+
+    <style>
+        body {
+            margin: 0;
+        }
+        .content {
+            min-height: 100vh;
+            display: flex;
+            flex: 1;
+        }
+        .row {
+            display: flex;
+            flex:1;
+            margin: 20px;
+        }
+        .column {
+            display: flex;
+            flex: 1;
+            border: solid black 2px;
+            align-items: center;
+            justify-content: center;
+        }
+        .column-one {
+            background-color: yellow;
+            color: black;
+            animation: animation_one 3s ease infinite;
+        }
+        .column-two { 
+            background-color: white;
+        }
+        .column-two > h1 {
+            animation: animation_two 3s ease infinite;
+        }
+        .column-three { 
+            background-color: blue;
+        }
+        .column-three > h1 { 
+            animation: animation_three_text 1.5s ease infinite, animation_three_movement 3s ease infinite;
+        }
+        .text {
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 20pt;
+        }
+        @keyframes animation_one {
+            0% {
+                background-color: yellow;
+                color: black;
+            } 50% {
+                background-color: blue;
+                color: white;
+            } 100% {
+                background-color: yellow;
+                color: black;
+            }
+        }
+        @keyframes animation_two {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes animation_three_movement {
+            0% {
+                transform: translateY(-25vh);
+            } 25% {
+                transform: translateY(0%);
+            } 50% {
+                transform: translateY(25vh);
+            } 100% {
+                transform: translateY(-25vh);
+            }
+        }
+        @keyframes animation_three_text {
+            0% {
+                color: black;
+            } 50% {
+                color: white;
+            } 100% {
+                color: black;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="content">
+        <div class="row text">
+            <div class="column column-one"><h1>ONE</h1></div>
+            <div class="column column-two"><h1>TWO</h1></div>
+            <div class="column column-three"><h1>THREE</h1></div>
+        </div>
+    </div>
+</body>
+</html>
